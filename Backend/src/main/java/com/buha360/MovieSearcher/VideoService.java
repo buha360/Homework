@@ -34,8 +34,10 @@ public class VideoService {
         }
 
         if (request.genre() != null && !request.genre().isBlank()) {
+            String pattern = "%" + request.genre().toLowerCase().trim() + "%";
+
             spec = spec.and((root, query, cb) ->
-                    cb.equal(cb.lower(root.get("genre")), request.genre().toLowerCase())
+                    cb.like(cb.lower(root.get("genre")), pattern)
             );
         }
 
