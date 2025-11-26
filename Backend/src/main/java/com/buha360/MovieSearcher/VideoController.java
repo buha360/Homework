@@ -15,19 +15,16 @@ public class VideoController {
         this.service = service;
     }
 
-    // 1) Összes videó (pl. kezdő betöltéshez)
     @GetMapping("/all")
     public List<Video> getAllVideos() {
         return service.findAll();
     }
 
-    // 2) Egy konkrét videó ID alapján (detail view-hoz)
     @GetMapping("/{id}")
     public Video getVideoById(@PathVariable Long id) {
         return service.findById(id);
     }
 
-    // 3) Keresés query paraméterekkel
     @GetMapping
     public List<Video> searchVideos(
             @RequestParam(required = false) String title,

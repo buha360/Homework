@@ -5,15 +5,19 @@
   color: #f5f5f5;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 4rem;
+  text-align: center;
 }
 
 .info {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: #ccc;
 }
 
@@ -21,7 +25,57 @@
   color: #ff6b6b;
 }
 
+/* FILTER */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem auto 5rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.filter-row input {
+  background: #181818;
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  color: #f5f5f5;
+  font-size: 0.85rem;
+  min-width: 130px;
+  text-align: center;
+}
+
+.filter-row input::placeholder {
+  text-align: center;
+}
+
+.filter-row input:focus {
+  outline: none;
+  border-color: #ffcc33;
+}
+
+.filter-row button {
+  border-radius: 999px;
+  border: none;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: #ffcc33;
+  color: #111;
+  font-weight: 600;
+}
+
+.filter-row .clear-btn {
+  background: #333;
+  color: #f5f5f5;
+}
+
+/* marquee */
 .marquee {
+  margin-top: 0.5rem;
   height: 390px;
   display: flex;
   align-items: center;
@@ -32,11 +86,13 @@
   display: flex;
   gap: 2rem;
   width: max-content;
+}
+
+.marquee--scroll .marquee-inner {
   animation: scroll-left 45s linear infinite;
 }
 
-/* hoverre álljon meg */
-.marquee:hover .marquee-inner {
+.marquee--scroll:hover .marquee-inner {
   animation-play-state: paused;
 }
 

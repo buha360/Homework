@@ -1,13 +1,50 @@
 <div class="page">
+  <!-- TITLE -->
   <h1 class="title">Movie Searcher</h1>
 
+  <!-- LOADING / ERROR -->
   @if (loading$ | async) {
   <div class="info">Loading videos...</div>
   } @if (error$ | async; as error) {
   <div class="info error">{{ error }}</div>
   }
 
-  <div class="marquee">
+  <!-- FILTER -->
+  <div class="filter-row">
+    <input type="text" placeholder="Title" [(ngModel)]="filters.title" />
+
+    <input type="text" placeholder="Genre" [(ngModel)]="filters.genre" />
+
+    <input
+      type="number"
+      placeholder="Min rating"
+      [(ngModel)]="filters.minImdbRating"
+      min="0"
+      max="10"
+      step="0.1"
+    />
+
+    <input
+      type="number"
+      placeholder="Year from"
+      [(ngModel)]="filters.releaseYearFrom"
+      min="1900"
+      max="2100"
+    />
+
+    <input
+      type="number"
+      placeholder="Year to"
+      [(ngModel)]="filters.releaseYearTo"
+      min="1900"
+      max="2100"
+    />
+
+    <button type="button" (click)="applyFilters()">Search</button>
+    <button type="button" class="clear-btn" (click)="clearFilters()">Clear</button>
+  </div>
+
+  <div class="marquee" [class.marquee--scroll]="shouldScroll">
     <div class="marquee-inner">
       @for (video of (videos$ | async) ?? []; track video.id) {
       <div class="card">
@@ -23,9 +60,13 @@
           <h2 class="card-title">{{ video.title }}</h2>
 
           <div class="meta-row">
-            @if (video.category) { <span>{{ video.category }}</span> } @if (video.genre) {
-            <span>• {{ video.genre }}</span> } @if (video.releaseYear) {
-            <span>• {{ video.releaseYear }}</span> }
+            @if (video.category) {
+            <span>{{ video.category }}</span>
+            } @if (video.genre) {
+            <span>• {{ video.genre }}</span>
+            } @if (video.releaseYear) {
+            <span>• {{ video.releaseYear }}</span>
+            }
           </div>
 
           @if (video.language) {
@@ -39,8 +80,8 @@
       </div>
       }
 
-      <!-- DUPLIKÁLT LISTA a folyamatos tekeréshez -->
-      @for (video of (videos$ | async) ?? []; track 'dup-' + video.id) {
+      <!-- DUPLICATED LIST: ONLY IF shouldScroll TRUE -->
+      @if (shouldScroll) { @for (video of (videos$ | async) ?? []; track 'dup-' + video.id) {
       <div class="card">
         <div class="thumb-wrapper">
           @if (video.thumbnailUrl) {
@@ -54,9 +95,13 @@
           <h2 class="card-title">{{ video.title }}</h2>
 
           <div class="meta-row">
-            @if (video.category) { <span>{{ video.category }}</span> } @if (video.genre) {
-            <span>• {{ video.genre }}</span> } @if (video.releaseYear) {
-            <span>• {{ video.releaseYear }}</span> }
+            @if (video.category) {
+            <span>{{ video.category }}</span>
+            } @if (video.genre) {
+            <span>• {{ video.genre }}</span>
+            } @if (video.releaseYear) {
+            <span>• {{ video.releaseYear }}</span>
+            }
           </div>
 
           @if (video.language) {
@@ -68,7 +113,7 @@
           }
         </div>
       </div>
-      }
+      } }
     </div>
   </div>
 </div>

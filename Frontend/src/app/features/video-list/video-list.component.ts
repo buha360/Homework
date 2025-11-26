@@ -4,11 +4,12 @@ import { catchError, tap } from 'rxjs/operators';
 import { VideoService } from '../../services/video.service';
 import { Video } from '../../models/video.model';
 import { AsyncPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-video-list',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, FormsModule],
   templateUrl: './video-list.component.html',
   styleUrl: './video-list.component.css',
 })
@@ -16,6 +17,18 @@ export class VideoListComponent implements OnInit {
   videos$: Observable<Video[]> = of([]);
   loading$ = new BehaviorSubject(false);
   error$ = new BehaviorSubject<string | null>(null);
+
+  shouldScroll = false;
+  private readonly SCROLL_THRESHOLD = 7;
+
+  // Filter
+  filters = {
+    title: '',
+    genre: '',
+    minImdbRating: null as number | null,
+    releaseYearFrom: null as number | null,
+    releaseYearTo: null as number | null,
+  };
 
   constructor(private videoService: VideoService) {}
 
@@ -28,13 +41,56 @@ export class VideoListComponent implements OnInit {
     this.error$.next(null);
 
     this.videos$ = this.videoService.getAll().pipe(
-      tap(() => this.loading$.next(false)),
+      tap((videos) => {
+        this.loading$.next(false);
+        this.shouldScroll = videos.length >= this.SCROLL_THRESHOLD;
+      }),
       catchError((err) => {
         console.error('Error loading videos:', err);
         this.error$.next('Failed to load videos');
         this.loading$.next(false);
+        this.shouldScroll = false;
         return of([]);
       })
     );
+  }
+
+  applyFilters(): void {
+    const params: any = {
+      title: this.filters.title?.trim() || undefined,
+      genre: this.filters.genre?.trim() || undefined,
+      minImdbRating: this.filters.minImdbRating ?? undefined,
+      releaseYearFrom: this.filters.releaseYearFrom ?? undefined,
+      releaseYearTo: this.filters.releaseYearTo ?? undefined,
+    };
+
+    this.loading$.next(true);
+    this.error$.next(null);
+
+    this.videos$ = this.videoService.search(params).pipe(
+      tap((videos) => {
+        this.loading$.next(false);
+        this.shouldScroll = videos.length >= this.SCROLL_THRESHOLD;
+      }),
+      catchError((err) => {
+        console.error('Error searching videos:', err);
+        this.error$.next('Failed to search videos');
+        this.loading$.next(false);
+        this.shouldScroll = false;
+        return of([]);
+      })
+    );
+  }
+
+  // Clear button
+  clearFilters(): void {
+    this.filters = {
+      title: '',
+      genre: '',
+      minImdbRating: null,
+      releaseYearFrom: null,
+      releaseYearTo: null,
+    };
+    this.loadAll();
   }
 }
