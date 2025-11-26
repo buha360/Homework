@@ -47,7 +47,7 @@
   <div class="marquee" [class.marquee--scroll]="shouldScroll">
     <div class="marquee-inner">
       @for (video of (videos$ | async) ?? []; track video.id) {
-      <div class="card">
+      <div class="card" (click)="openPreview(video)">
         <div class="thumb-wrapper">
           @if (video.thumbnailUrl) {
           <img [src]="video.thumbnailUrl" [alt]="video.title" />
@@ -82,7 +82,7 @@
 
       <!-- DUPLICATED LIST: ONLY IF shouldScroll TRUE -->
       @if (shouldScroll) { @for (video of (videos$ | async) ?? []; track 'dup-' + video.id) {
-      <div class="card">
+      <div class="card" (click)="openPreview(video)">
         <div class="thumb-wrapper">
           @if (video.thumbnailUrl) {
           <img [src]="video.thumbnailUrl" [alt]="video.title" />
@@ -116,4 +116,24 @@
       } }
     </div>
   </div>
+
+  @if (selectedVideo && selectedVideoSafeUrl) {
+  <div class="backdrop" (click)="closePreview()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">{{ selectedVideo.title }}</h2>
+        <button class="close-btn" type="button" (click)="closePreview()">✕</button>
+      </div>
+
+      <div class="video-wrapper">
+        <iframe
+          [src]="selectedVideoSafeUrl"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        >
+        </iframe>
+      </div>
+    </div>
+  </div>
+  }
 </div>

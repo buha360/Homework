@@ -5,6 +5,7 @@ import { VideoService } from '../../services/video.service';
 import { Video } from '../../models/video.model';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-video-list',
@@ -17,6 +18,8 @@ export class VideoListComponent implements OnInit {
   videos$: Observable<Video[]> = of([]);
   loading$ = new BehaviorSubject(false);
   error$ = new BehaviorSubject<string | null>(null);
+  selectedVideo: Video | null = null;
+  selectedVideoSafeUrl: SafeResourceUrl | null = null;
 
   shouldScroll = false;
   private readonly SCROLL_THRESHOLD = 7;
@@ -30,7 +33,7 @@ export class VideoListComponent implements OnInit {
     releaseYearTo: null as number | null,
   };
 
-  constructor(private videoService: VideoService) {}
+  constructor(private videoService: VideoService, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.loadAll();
@@ -92,5 +95,42 @@ export class VideoListComponent implements OnInit {
       releaseYearTo: null,
     };
     this.loadAll();
+  }
+
+  openPreview(video: Video): void {
+    if (!video.introVideoUrl) {
+      return;
+    }
+    const embedUrl = this.buildYoutubeEmbedUrl(video.introVideoUrl);
+    this.selectedVideo = video;
+    this.selectedVideoSafeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+  }
+
+  closePreview(): void {
+    this.selectedVideo = null;
+    this.selectedVideoSafeUrl = null;
+  }
+
+  private buildYoutubeEmbedUrl(url: string): string {
+    try {
+      const u = new URL(url);
+      let id = '';
+
+      if (u.hostname.includes('youtu.be')) {
+        id = u.pathname.replace('/', '');
+      } else if (u.searchParams.has('v')) {
+        id = u.searchParams.get('v') ?? '';
+      } else if (u.pathname.includes('/embed/')) {
+        id = u.pathname.split('/embed/')[1];
+      }
+
+      if (!id) {
+        return url;
+      }
+
+      return `https://www.youtube.com/embed/${id}?autoplay=1`;
+    } catch {
+      return url;
+    }
   }
 }
