@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  oracledb:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracledb-xe
+    environment:
+      ORACLE_PASSWORD: "SecretPwd123"   # SYS/SYSTEM jelszó
+      APP_USER: "video_app"             # user
+      APP_USER_PASSWORD: "video_app"    # jelszo
+    ports:
+      - "1521:1521"
+    volumes:
+      - ./oradata:/opt/oracle/oradata

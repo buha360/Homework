@@ -1,0 +1,35 @@
+# IntelliJ project files
+*.iml
+
+# Maven
+target/
+
+# Node / Angular
+node_modules/
+dist/
+
+# IDE
+.idea/
+.vscode/
+
+# Node / Angular
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.angular/
+
+# Maven / Java
+Backend/target/
+Backend/.mvn/wrapper/maven-wrapper.jar
+
+# Oracle XE adatfájlok
+Database/oradata/
+Database/diag/
+Database/fast_recovery_area/
+Database/trace/
+Database/*.log
+Database/*.dbf
+
+# Egyéb
+*.log
+*.tmp
+.DS_Store
