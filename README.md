@@ -1,3 +1,5 @@
+(A kiindulási feladat leírása videófelvételekhez kapcsolódó metaadat-alapú lekérdező rendszert írt elő. Ezt a koncepciót első olvasásra félreérelmeztem, ezután kreatívan újragondoltam: a videószekvenciák nálam filmekhez és trailerekhez tartoznak, amelyek szintén metaadatokkal (cím, műfaj, kategória, év, nyelv, értékelés stb.) rendelkeznek.)
+
 # Movie Searcher - 🎬
 
 This project is a modern, responsive movie browsing interface built with **Angular 21**, **Spring Boot** backend, and an **Oracle Database running inside Docker**.  
