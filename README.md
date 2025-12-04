@@ -1,4 +1,18 @@
 (A kiindulási feladat leírása videófelvételekhez kapcsolódó metaadat-alapú lekérdező rendszert írt elő. Ezt a koncepciót első olvasásra félreérelmeztem, ezután kreatívan újragondoltam: a videószekvenciák nálam filmekhez és trailerekhez tartoznak, amelyek szintén metaadatokkal (cím, műfaj, kategória, év, nyelv, értékelés stb.) rendelkeznek.)
+# Working Hours - ⏱️
+The development of this project was completed within a focused three-day workflow:
+
+Day 1 – Monday (4–5 hours):
+Initial setup of the full environment, including Angular frontend, Spring Boot backend, and the Oracle database running in Docker.
+
+Day 2 – Tuesday (6–8 hours):
+Implementation of the initial backend structure and the full database schema, including entities, repositories, and configuration.
+
+Day 3 – Wednesday (8–10 hours):
+Extension of backend features and full implementation of the frontend UI, including search filters, preview components, animated marquee row, and trailer popup window.
+
+After Wednesday, development was paused due to the lack of response regarding additional details or refinement directions.
+
 
 # Movie Searcher - 🎬
 
