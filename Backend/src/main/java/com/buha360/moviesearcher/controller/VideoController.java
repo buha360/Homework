@@ -1,12 +1,15 @@
-package com.buha360.MovieSearcher;
+package com.buha360.moviesearcher.controller;
 
+import com.buha360.moviesearcher.model.Video;
+import com.buha360.moviesearcher.VideoSearchRequest;
+import com.buha360.moviesearcher.service.VideoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/videos")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200") // ezt ki kell venni
 public class VideoController {
 
     private final VideoService service;
@@ -25,6 +28,7 @@ public class VideoController {
         return service.findById(id);
     }
 
+    // ez sem a legszebb
     @GetMapping
     public List<Video> searchVideos(
             @RequestParam(required = false) String title,

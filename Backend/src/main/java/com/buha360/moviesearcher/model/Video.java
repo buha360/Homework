@@ -1,4 +1,4 @@
-package com.buha360.MovieSearcher;
+package com.buha360.moviesearcher.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,7 +47,7 @@ public class Video {
     private Double imdbRating;     // pl. 8.7
 
     @Column(length = 500)
-    private String thumbnailUrl;   // indexkép
+    private String thumbnailUrl;   // thumbnail
 
     @Column(length = 500)
     private String introVideoUrl;  // YouTube trailer / intro link

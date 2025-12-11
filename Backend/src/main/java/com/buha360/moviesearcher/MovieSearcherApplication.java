@@ -1,4 +1,4 @@
-package com.buha360.MovieSearcher;
+package com.buha360.moviesearcher;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
